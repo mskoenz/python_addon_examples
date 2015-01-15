@@ -20,6 +20,8 @@ if __name__ == "__main__":
     custom = ["-p -ls", "-q"]
     p.read(sys.argv + custom) 
     
+    print(p)
+    
     if p.has_flag("p"):
         print(p)
     
