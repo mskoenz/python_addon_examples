@@ -12,9 +12,9 @@ from addon import *
 
 if __name__ == "__main__":
     print("state_test.py")
-    d = abspath(__file__) + "/../cpp_addon"
+    d = "test_data"
     p = 0
     while p < 1:
         p = read_status(d)["p"]
-        print(CLEAR_ + progress_bar(p), UP_)
+        print(progress_bar(p))
         time.sleep(.1)

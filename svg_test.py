@@ -24,7 +24,7 @@ def main():
     pic.add(circle(cxy = (100, 200), r = 30, fill = "B"))
     pic.add(circle(cxy = (200, 100), r = 30, fill = "A"))
     pic.add(text(xy = (50, 50), text = "Testing SVG", font_size = 24, color = "black"))
-    pic.write_svg("test.svg")
+    pic.write_svg("test_results/test.svg")
     pic.display()
 
 if __name__ == "__main__":
