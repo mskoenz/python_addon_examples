@@ -21,7 +21,8 @@ if __name__ == "__main__":
     GREENB("path")
     DEBUG_VAR(path("./foo.txt"))
     DEBUG_VAR(filename("./foo.txt"))
-    DEBUG_VAR(filetype("foo.txt"))
+    DEBUG_VAR(filetype("./foo.txt"))
+    DEBUG_VAR(filetype("./foo"))
     DEBUG_VAR(abspath("./foo.txt"))
     
     #=================== list related stuff ===================

@@ -9,9 +9,7 @@ from addon import *
 
 import sys
 
-if __name__ == "__main__":
-    print("test_plot.py")
-    
+def suit_1():
     #=================== convert txt file ===================
     cmd = namespace()
     cmd.arg = ["test_data/cos.txt", "test_data/sin.txt"]
@@ -27,13 +25,6 @@ if __name__ == "__main__":
     
     plot(cmd)
     
-    #=================== cp_opt plot ===================
-    cmd.clear()
-    cmd.arg = ["test_results/cos.xml", "test_results/sin.xml"]
-    cmd.cp_opt = [0,2]
-    
-    plot(cmd)
-    
     #=================== parallel plot ===================
     cmd.clear()
     cmd.arg = ["test_results/cos.xml", "test_results/sin.xml"]
@@ -44,15 +35,71 @@ if __name__ == "__main__":
     
     plot(cmd)
     
+    #=================== cp_opt plot ===================
+    cmd.clear()
+    cmd.arg = ["test_results/cos.xml", "test_results/sin.xml"]
+    cmd.cp_opt = [0,2]
+    
+    plot(cmd)
+    
     #=================== joined plot ===================
     cmd.clear()
     cmd.arg = ["test_results/cos.xml", "test_results/sin.xml"]
     cmd.flag = ["plot"]
-    cmd.x = "00-x"
+    cmd.x = "#_x"
     cmd.xlabel = "foo"
-    #~ cmd.ylabel = ["cos", "sin"]
-    cmd.style = ["r-","b-"]
-    cmd.y = ["00-cos", "01-sin"]
+    cmd.ylabel = ["cos", "sin"]
+    cmd.dsel = [100,-100,10]
+    cmd.style = ["r^-","b^-"]
+    cmd.y = ["00_cos", "01_sin"]
     cmd.o = "test_results/join.pdf"
     
     plot(cmd)
+    
+def suit_2():
+    #=================== convert txt file ===================
+    cmd = namespace()
+    cmd.arg = ["test_data/test_{}.txt".format(n) for n in range(4)]
+    cmd.conv = "test_results"
+    cmd.comment = ["#"]
+    
+    plot(cmd)
+    
+    #=================== parallel plot ===================
+    cmd.clear()
+    cmd.arg = ["test_results/test_{}.xml".format(n) for n in range(4)]
+    cmd.flag = ["plot", "parallel"]
+    cmd.x = "x"
+    cmd.y = 3
+    cmd.o = "test_results"
+    
+    #~ plot(cmd)
+    
+    #=================== joined plot ===================
+    cmd.clear()
+    cmd.arg = ["test_results/test_{}.xml".format(n) for n in range(4)]
+    cmd.flag = ["plot"]
+    
+    cmd.x = "#_x"
+    cmd.xlabel = "foo"
+    cmd.y = [3, 7, 11, 15]
+    cmd.yerr = "-1"
+    cmd.xlabel = "{l} {N}"
+    cmd.ylabel = "{#}-{L}"
+    cmd.title = "number {N}"
+    cmd.ylim = [0,100]
+    cmd.yticks = [0,140,20]
+    cmd.border = .02
+    cmd.parameter = "all"
+    cmd.fontsize = 20
+    cmd.style = ["r^-","b^-","g^-","y^-"]
+    cmd.o = "test_results/join_test.pdf"
+    
+    plot(cmd)
+    
+    
+if __name__ == "__main__":
+    print("test_plot.py")
+    
+    suit_1()
+    suit_2()
