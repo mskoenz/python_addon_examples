@@ -30,8 +30,8 @@ def suit_1():
     cmd.clear()
     cmd.arg = ["test_results/cos.xml", "test_results/sin.xml"]
     cmd.flag = ["parallel"]
-    cmd.x = "$1"
-    cmd.y = "$2"
+    cmd.x = "#1"
+    cmd.y = "#2"
     cmd.usetex = 1
     cmd.o = "test_results"
     
@@ -73,7 +73,7 @@ def suit_2():
     cmd.arg = ["test_results/test_{}.xml".format(n) for n in range(4)]
     cmd.flag = ["parallel"]
     cmd.x = "x"
-    cmd.y = "$4"
+    cmd.y = "#4"
     cmd.o = "test_results"
     cmd.usetex = 1
     
@@ -86,7 +86,7 @@ def suit_2():
     
     cmd.x = "#x"
     cmd.xlabel = "foo"
-    cmd.y = "$4"
+    cmd.y = "#4"
     cmd.xlabel = "{l} {N}"
     cmd.ylabel = "{#}-{L}"
     cmd.title = "number {N}"
