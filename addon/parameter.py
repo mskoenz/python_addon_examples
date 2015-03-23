@@ -148,6 +148,13 @@ class parameter_class(namespace):
         else:
             return default
     
+    def get_namespace(self):
+        res = namespace(self.__dict__)
+        del res.warn_
+        del res.print_
+        del res.res_names_
+        return res
+    
 parameter = parameter_class()
 
 #--------------------------- parameter action ------------------------------------------------------
@@ -155,7 +162,7 @@ def bash_if(flag, action, silent = False):
     """
     If the flag is in the parameter instance of parameter_class, the action will be executed by as a bash command if it is a string and be called otherwise (assumption action == python function with no args)
     """
-    if parameter.has_flag(flag):
+    if flag in parameter.flag:
         if is_str(action): # normal bash cmd
             bash(action, silent)
         elif is_function(action): # fct call
@@ -166,18 +173,18 @@ def bash_if(flag, action, silent = False):
             ERROR("invalid action input in bash_if")
     return 0
 
-def bash(cmd, silent = False):
+def bash(cmd, silent = False, **kwargs):
     """
     Just calls os.system and outputs the command.
     """
     if not silent:
         CYAN(cmd)
-    os.system(cmd)
+    subprocess.call(cmd, shell = True, **kwargs)
 
-def popen(cmd, silent = False):
+def popen(cmd, silent = False, **kwargs):
     """
     If one needs the output of the bash-command, this function can provide it. Works exactly like bash(cmd) but returns the output as a string.
     """
     if not silent:
         CYAN(cmd)
-    return subprocess.check_output(cmd, shell = True).decode("utf-8") # not safe!
+    return subprocess.check_output(cmd, shell = True, **kwargs).decode("utf-8")[:-1] #shell = True not safe!, [:-1]

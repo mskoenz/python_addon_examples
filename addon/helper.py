@@ -91,13 +91,16 @@ def filename(file_, suffix = True):
     
 def filetype(file_):
     res = filename(file_).split(".")
-    if len(res) == 1:
+    if len(res) == 1 or res[-1] == "":
         return None
     else:
         return res[-1]
 
 def path(file_):
     return os.path.dirname(file_)
+
+def relpath(from_, to = "."):
+    return os.path.relpath(from_, to)
 
 def create_folder(name):
     folder_line = name.split("/")
@@ -143,7 +146,7 @@ def to_number(obj, strip_quotes = True):
         pass
     
     test = obj.strip()
-    if test[0] == "[" and test[-1] == "]":
+    if len(test) != 0 and test[0] == "[" and test[-1] == "]":
         #~ l = test[1:-1].split(",") #too easy, splits [[a, b], [c, d]] -> [[a<> b]<> [c<> d]]
         l = test[1:-1].split(",")
         l = re.split(",(?=(?:[^\\[\\]]*(?:\\[[^\\[\\]]*\\]))*[^\\[\\]]*$)", test[1:-1]) # splits only , outside of [] bc of recursive lists [[a, b], [c, d]]
@@ -163,6 +166,8 @@ def to_str(obj):
                 res += ","
         res += "]"
         return res
+    elif is_dict(obj):
+        return dict([(k, to_str(v)) for k, v in obj.items()])
     elif is_str(obj):
         return str(obj)
         #~ return str([obj])[1:-1] #trick since the list chooses the right quotes
@@ -216,6 +221,24 @@ class namespace:
         return self.__dict__.keys()
     def items(self):
         return self.__dict__.items()
+    
+    def __eq__(self, rhs):
+        if hasattr(rhs, "__dict__"):
+            return rhs.__dict__ == self.__dict__
+        return False
+    
+    def assert_(self, arg, look = None):
+        if look == None:
+            look = self.keys()
+            name = "keys"
+        else:
+            name = look + "s"
+            look = self[look]
+        
+        list_ = make_list(arg)
+        res = list(set(list_).difference(set(look)))
+        if len(res) != 0:
+            ERROR("{} {} are missing!".format(name, str(res)[1:-1]))
     
     def print_item(self, key):
         sv = str(self.__dict__[key])
@@ -314,10 +337,23 @@ def split_list(list_, key):
     return list_
     
 
+#------------- computed length of a list while only counting len(l) if l has no list element ----------------------------
+# i.e. [[n, [y, y]], n, [y, y]] would give 4
+def leaf_len(list_):
+    test = lambda x: isinstance(x, collections.Iterable) and not is_str(x)
+    
+    if test(list_):
+        for it in list_:
+            if test(it):
+                return sum(leaf_len(x) for x in list_)
+        return len(list_)
+    else:
+        return 0
+
 #------------- computed len(flatten(list)) but without storing the list ----------------------------
 def nested_len(list_):
     if isinstance(list_, collections.Iterable):
-        return sum([nested_len(x) for x in list_])
+        return sum(nested_len(x) for x in list_)
     else:
         return 1
 

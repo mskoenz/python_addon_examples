@@ -1,4 +1,4 @@
-x y err tri
+x y tri_err tri
 #param N="100" seed="0" nr="2" inv="7"
 1 2 .1 1
 2 2 .1 8

@@ -15,11 +15,13 @@ valid_options = [
     , "parameter_loc"
     # manipulation
     , "acc"
+    , "triconv"
     , "dsel"
     , "psel"
     , "linreg"
     # destination
     , "o"
+    , "assoz_file"
     # style
     , "alpha"
     , "fontsize"

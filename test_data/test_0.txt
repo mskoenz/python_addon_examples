@@ -1,4 +1,4 @@
-x y err lin
+x y lin_err lin
 #param N="100" seed="0" nr="0" inv="9"
 1 0 .1 1
 2 0 .1 2

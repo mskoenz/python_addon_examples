@@ -1,4 +1,4 @@
-x y err sqr
+x y sqr_err sqr
 #param N="100" seed="0" nr="1" inv="8"
 1 1 .1 1
 2 1 .1 4
