@@ -19,7 +19,7 @@ if __name__ == "__main__":
             ]
     
     #------------------- expression -------------------
-    instring = "acc2@(foo)+(bar)"
+    instring = "trig_conv(2)@acc2@(foo)+bar/23"
     
     #------------------- custom matrix -------------------
     gen.matrix.acc2 = lambda *args: np.add.accumulate
@@ -31,6 +31,9 @@ if __name__ == "__main__":
     
     GREEN(data[label.index("foo")])
     GREEN(data[label.index("foo_err")])
+    
+    YELLOW(data[label.index("bar")])
+    YELLOW(data[label.index("bar_err")])
     
     RED(val)
     RED(err)
